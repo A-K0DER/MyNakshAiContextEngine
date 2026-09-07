@@ -11,26 +11,26 @@ flowchart TD
 
     Validate --> Orchestrator[Fetch Orchestrator\nPromise.allSettled]
 
-    subgraph Concurrent fetch, cached + retried
+    subgraph "Concurrent fetch, cached + retried"
         Orchestrator --> UserSvc[User Service]
         Orchestrator --> KundliSvc[Kundli Service]
         Orchestrator --> HoroscopeSvc[Horoscope Service]
-        Orchestrator --> PanchangSvc[Panchang Service\n(date-scoped, not per-user)]
+        Orchestrator --> PanchangSvc["Panchang Service\n(date-scoped, not per-user)"]
 
-        UserSvc <-.cache get/set (userId:user).-> Cache[(In-memory TTL Cache)]
-        KundliSvc <-.cache get/set (userId:kundli).-> Cache
-        HoroscopeSvc <-.cache get/set (userId:horoscope).-> Cache
-        PanchangSvc <-.cache get/set (date:panchang).-> Cache
+        UserSvc <-.->|"cache get/set (userId:user)"| Cache[(In-memory TTL Cache)]
+        KundliSvc <-.->|"cache get/set (userId:kundli)"| Cache
+        HoroscopeSvc <-.->|"cache get/set (userId:horoscope)"| Cache
+        PanchangSvc <-.->|"cache get/set (date:panchang)"| Cache
     end
 
-    UserSvc --> Merge[FetchedContext\n(per-service status/data/latency)]
+    UserSvc --> Merge["FetchedContext\n(per-service status/data/latency)"]
     KundliSvc --> Merge
     HoroscopeSvc --> Merge
     PanchangSvc --> Merge
 
     Merge -->|all 4 failed| HardFail([500: no context available])
 
-    Merge --> Engine[Personalization Engine\n(config-driven, no LLM dependency)]
+    Merge --> Engine["Personalization Engine\n(config-driven, no LLM dependency)"]
     Engine --> Rules[(personalizationRules.ts\nprimary/secondary/excluded per intent)]
     Engine --> Resolvers[(contextResolvers.ts\none resolver per field)]
     Engine --> Confidence[Confidence Scorer\nHIGH/MEDIUM/LOW from field coverage]
