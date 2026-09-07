@@ -107,7 +107,9 @@ Adding a sixth intent means adding one entry to the config object.
   (e.g. Redis) behind it.
 - Retry backoff is plain exponential (`150ms * 2^attempt`) with no jitter, so under real load
   concurrent retries could synchronize ("thundering herd"). Production would add randomized
-  jitter.
+  jitter. `GeminiProvider` uses the same pattern (10s timeout, 2 retries, 300ms base backoff) and
+  retries on timeouts, network errors, 429, and 5xx — not on 4xx (bad request/auth), which would
+  just fail identically again.
 - Prompt sizing is word-count based with a rough `words * 1.3` token estimate, not a real
   tokenizer. Good enough for logging/observability, not for hard token-budget enforcement against
   a real model's context window.
