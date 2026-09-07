@@ -75,6 +75,16 @@ If the key is absent, the mock provider is used regardless of `LLM_PROVIDER`.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the request flow diagram and module responsibilities.
 
+## Testing every scenario
+
+See [API_TESTING.md](./API_TESTING.md) for a full API reference plus `curl` commands covering
+each intent, personalization behavior, partial-failure/caching/error scenarios, and log events.
+
+A ready-to-import Postman collection covering the same scenarios is at
+[MyNaksh_AI_Context_Engine.postman_collection.json](./MyNaksh_AI_Context_Engine.postman_collection.json)
+(Postman → Import → File). It defines a `baseUrl` collection variable defaulting to
+`http://localhost:3000`.
+
 Key design point: **`src/config/personalizationRules.ts` is the single source of truth** for
 which context fields matter per intent, default tone/language/length, and what's excluded. The
 engine (`src/core/personalizationEngine.ts`) reads this config and calls small per-field

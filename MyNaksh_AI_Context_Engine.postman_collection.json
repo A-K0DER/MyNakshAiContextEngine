@@ -1,0 +1,337 @@
+{
+  "info": {
+    "name": "MyNaksh AI Context Engine",
+    "description": "Personalized AI Context Engine API — endpoints and test scenarios. See API_TESTING.md in the repo for the full write-up of what each scenario verifies.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b3e2a2b0-1e4a-4c7a-9c1a-mynaksh-context-engine"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "1. Intent Detection",
+      "item": [
+        {
+          "name": "Career",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"Should I consider changing my job this year?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Relationship",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_102\",\n  \"question\": \"How does this month look for my relationship?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Health",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_103\",\n  \"question\": \"What should I focus on for my health?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Finance",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_105\",\n  \"question\": \"What should I prioritize this week for my investments and savings?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "General (no keyword match)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_104\",\n  \"question\": \"Can you summarize today's guidance?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Personalized Language & Tone",
+      "item": [
+        {
+          "name": "user_101 - debug",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"general guidance for today\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "user_102 - debug",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_102\",\n  \"question\": \"general guidance for today\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "user_103 - debug",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_103\",\n  \"question\": \"general guidance for today\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "user_101 - full answer in reported language",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"general guidance for today\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Response Length Personalization",
+      "item": [
+        {
+          "name": "Career (maxWords=180) - personalize",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"Should I consider changing my job this year?\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Health (maxWords=150) - personalize",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_103\",\n  \"question\": \"What should I focus on for my health?\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4-5. Failure & Degraded Confidence",
+      "item": [
+        {
+          "name": "Repeat request (observe random ~10% partial failure)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"career guidance\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Run this request multiple times (Postman Runner, 15-20 iterations).",
+                  "// Watch server stdout for upstream_fetch log lines with status:'failed'.",
+                  "// The corresponding response here will show confidence MEDIUM or LOW.",
+                  "pm.test('response has confidence field', function () {",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(['HIGH','MEDIUM','LOW']).to.include(json.confidence);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Full outage (500) - requires temporarily raising maybeFail rate, see API_TESTING.md #5",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"career guidance\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Caching",
+      "item": [
+        {
+          "name": "Cache warm-up call (1st, slower)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"cache_test_user\",\n  \"question\": \"career guidance\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Cache hit call (2nd, much faster)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"cache_test_user\",\n  \"question\": \"career guidance\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('second call is fast (cache hit)', function () {",
+                  "  pm.expect(pm.response.responseTime).to.be.below(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7. Validation & Error Handling",
+      "item": [
+        {
+          "name": "Missing userId -> 400",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"question\": \"hi\"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('status is 400', function () { pm.response.to.have.status(400); });"] }
+            }
+          ]
+        },
+        {
+          "name": "Empty question -> 400",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"user_101\",\n  \"question\": \"   \"\n}" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('status is 400', function () { pm.response.to.have.status(400); });"] }
+            }
+          ]
+        },
+        {
+          "name": "Malformed JSON -> 400",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\"userId\":" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('status is 400', function () { pm.response.to.have.status(400); });"] }
+            }
+          ]
+        },
+        {
+          "name": "Array body -> 400 (userId required)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "[1, 2, 3]" },
+            "url": { "raw": "{{baseUrl}}/personalize", "host": ["{{baseUrl}}"], "path": ["personalize"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('status is 400', function () { pm.response.to.have.status(400); });"] }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "8. Unknown User",
+      "item": [
+        {
+          "name": "Unrecognized userId still returns 200",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"totally_unknown_user_xyz\",\n  \"question\": \"general guidance\"\n}" },
+            "url": { "raw": "{{baseUrl}}/debug/personalization", "host": ["{{baseUrl}}"], "path": ["debug", "personalization"] }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": { "type": "text/javascript", "exec": ["pm.test('status is 200', function () { pm.response.to.have.status(200); });"] }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
