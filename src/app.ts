@@ -1,6 +1,7 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import { personalizeRouter } from "./routes/personalize";
 import { debugPersonalizationRouter } from "./routes/debugPersonalization";
+import { errorHandler } from "./middleware/errorHandler";
 
 export function createApp() {
   const app = express();
@@ -13,20 +14,7 @@ export function createApp() {
   app.use(personalizeRouter);
   app.use(debugPersonalizationRouter);
 
-  // Malformed JSON bodies land here as a SyntaxError from express.json().
-  app.use((err: unknown, _req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof SyntaxError && "body" in err) {
-      res.status(400).json({ error: "Malformed JSON body." });
-      return;
-    }
-    next(err);
-  });
-
-  app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    res.status(500).json({ error: "Internal server error." });
-  });
+  app.use(errorHandler);
 
   return app;
 }
