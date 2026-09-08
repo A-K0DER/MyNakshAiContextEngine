@@ -102,7 +102,6 @@ export async function fetchAllContext(userId: string): Promise<FetchedContext> {
     fetchCached<PanchangInfo>(`panchang:${date}`, CACHE_TTL_MS.panchang, () => getPanchang()),
   ]);
 
-  // fetchCached never rejects (it catches internally), so allSettled entries are always "fulfilled".
   return {
     user: user.status === "fulfilled" ? user.value : failedResult("orchestrator error"),
     kundli: kundli.status === "fulfilled" ? kundli.value : failedResult("orchestrator error"),
