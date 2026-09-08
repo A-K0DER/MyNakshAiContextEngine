@@ -8,7 +8,7 @@ import {
   runContextAndDecisionPipeline,
   validateRequestBody,
 } from "../core/requestPipeline";
-import { PersonalizeResponseBody } from "../types";
+import { ErrorResponseBody, PersonalizeResponseBody } from "../models";
 import { logEvent } from "../logger";
 
 export const personalizeRouter = Router();
@@ -23,7 +23,8 @@ personalizeRouter.post("/personalize", async (req, res) => {
     body = validateRequestBody(req.body);
   } catch (err) {
     if (err instanceof InvalidRequestError) {
-      res.status(400).json({ error: err.message });
+      const errorBody: ErrorResponseBody = { error: err.message };
+      res.status(400).json(errorBody);
       return;
     }
     throw err;
@@ -58,7 +59,8 @@ personalizeRouter.post("/personalize", async (req, res) => {
   } catch (err) {
     if (err instanceof NoContextAvailableError) {
       logEvent("request_failed", { requestId, userId: body.userId, reason: "no_context" });
-      res.status(500).json({ error: "Unable to fetch any context for this user." });
+      const errorBody: ErrorResponseBody = { error: "Unable to fetch any context for this user." };
+      res.status(500).json(errorBody);
       return;
     }
 
@@ -68,6 +70,7 @@ personalizeRouter.post("/personalize", async (req, res) => {
       reason: "llm_error",
       error: err instanceof Error ? err.message : String(err),
     });
-    res.status(500).json({ error: "Failed to generate a response." });
+    const errorBody: ErrorResponseBody = { error: "Failed to generate a response." };
+    res.status(500).json(errorBody);
   }
 });

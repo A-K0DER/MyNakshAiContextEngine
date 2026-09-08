@@ -6,7 +6,7 @@ import {
   runContextAndDecisionPipeline,
   validateRequestBody,
 } from "../core/requestPipeline";
-import { DebugPersonalizationResponseBody } from "../types";
+import { DebugPersonalizationResponseBody, ErrorResponseBody } from "../models";
 
 export const debugPersonalizationRouter = Router();
 
@@ -19,7 +19,8 @@ debugPersonalizationRouter.post("/debug/personalization", async (req, res) => {
     body = validateRequestBody(req.body);
   } catch (err) {
     if (err instanceof InvalidRequestError) {
-      res.status(400).json({ error: err.message });
+      const errorBody: ErrorResponseBody = { error: err.message };
+      res.status(400).json(errorBody);
       return;
     }
     throw err;
@@ -39,7 +40,8 @@ debugPersonalizationRouter.post("/debug/personalization", async (req, res) => {
     res.status(200).json(responseBody);
   } catch (err) {
     if (err instanceof NoContextAvailableError) {
-      res.status(500).json({ error: "Unable to fetch any context for this user." });
+      const errorBody: ErrorResponseBody = { error: "Unable to fetch any context for this user." };
+      res.status(500).json(errorBody);
       return;
     }
     throw err;

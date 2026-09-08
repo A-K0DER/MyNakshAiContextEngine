@@ -1,6 +1,7 @@
 import { fetchAllContext } from "./fetchOrchestrator";
 import { buildPersonalizationDecision } from "./personalizationEngine";
-import { FetchedContext, PersonalizationDecision, PersonalizeRequestBody } from "../types";
+import { FetchedContext, PersonalizationDecision } from "../types";
+import { PersonalizeRequestBody } from "../models";
 import { logEvent } from "../logger";
 
 export class InvalidRequestError extends Error {}

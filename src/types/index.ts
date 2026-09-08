@@ -102,24 +102,3 @@ export interface LLMResponse {
 export interface LLMProvider {
   generate(prompt: string): Promise<LLMResponse>;
 }
-
-// ---------- HTTP request/response bodies ----------
-
-export interface PersonalizeRequestBody {
-  userId: string;
-  question: string;
-}
-
-export interface PersonalizeResponseBody {
-  answer: string;
-  confidence: "HIGH" | "MEDIUM" | "LOW";
-  sourcesUsed: string[];
-}
-
-export interface DebugPersonalizationResponseBody {
-  intent: Intent;
-  selectedContext: string[];
-  excludedContext: string[];
-  language: Language;
-  tone: TonePreference;
-}

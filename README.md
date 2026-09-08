@@ -75,6 +75,8 @@ If the key is absent, the mock provider is used regardless of `LLM_PROVIDER`.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) for the request flow diagram and module responsibilities.
 
+## RFC link : https://docs.google.com/document/d/16tMPrinSsBTyJpAy24CuQTED6FuBhxkbmxI3Tln-u0w/edit?tab=t.0
+
 ## Testing every scenario
 
 See [API_TESTING.md](./API_TESTING.md) for a full API reference plus `curl` commands covering
@@ -132,15 +134,16 @@ Adding a sixth intent means adding one entry to the config object.
   calibrated against real outcome data.
 
 **What I'd improve with another day:**
-- Add unit tests per module (intent detector, confidence scorer, personalization engine) — the
-  architecture was deliberately built so each module is independently testable, but I didn't
-  write the test suite itself given the scope constraints.
+- Add unit tests per module (intent detector, confidence scorer, personalization engine) — the architecture was deliberately built so each module is independently testable, but I didn't write the test suite itself given the scope constraints.
 - Add jitter to retry backoff and make timeout/retry/backoff values configurable per service
   (Panchang, being shared across all users, might warrant a longer timeout and more aggressive
   caching than per-user services).
 - Real token counting via a tokenizer library if prompt-size accuracy mattered for billing/limits.
 - A circuit breaker per upstream service so a persistently failing service stops being retried
   for a cooldown window instead of retrying on every request.
+- Multi-turn conversation support: a `conversationId`/`sessionId` on the request, prior turns
+  stored (in-memory map, Redis, or DB) and threaded into `buildPrompt`, so follow-up questions
+  aren't answered in isolation from what was already asked/answered.
 
 **Production concerns intentionally left out (per assignment scope):**
 - Authentication/authorization on the endpoints.
