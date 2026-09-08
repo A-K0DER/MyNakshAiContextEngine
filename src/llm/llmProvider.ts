@@ -1,6 +1,6 @@
 import { LLMProvider } from "../types";
 import { MockProvider } from "./mockProvider";
-import { AnthropicProvider } from "./realProvider";
+import { AnthropicProvider } from "./anthropicProvider";
 import { GeminiProvider } from "./geminiProvider";
 
 export function getLLMProvider(): LLMProvider {
