@@ -17,6 +17,7 @@ The server listens on `http://localhost:3000` (configurable via `PORT`). No API 
 required — the default `LLM_PROVIDER=mock` uses a templated mock LLM.
 
 To type-check without emitting: `npm run typecheck`. To build/run compiled JS: `npm run build && npm start`.
+To run tests: `npm test` (Node's built-in test runner via `tsx`, no extra dependency).
 
 ## Endpoints
 
@@ -142,7 +143,10 @@ Adding a sixth intent means adding one entry to the config object.
   calibrated against real outcome data.
 
 **What I'd improve with another day:**
-- Add unit tests per module (intent detector, confidence scorer, personalization engine) — the architecture was deliberately built so each module is independently testable, but I didn't write the test suite itself given the scope constraints.
+- Add unit tests for the remaining pure modules (intent detector, personalization engine) — the
+  architecture was deliberately built so each is independently testable; `confidenceScorer` now has
+  coverage (`src/core/confidenceScorer.test.ts`, run via `npm test`) but the others don't yet, given
+  scope constraints.
 - Add jitter to retry backoff and make timeout/retry/backoff values configurable per service
   (Panchang, being shared across all users, might warrant a longer timeout and more aggressive
   caching than per-user services).
