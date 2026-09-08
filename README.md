@@ -69,6 +69,14 @@ LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
+Or, for Gemini:
+
+```
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=...
+GEMINI_MODEL=gemini-2.0-flash   # optional, this is the default
+```
+
 If the key is absent, the mock provider is used regardless of `LLM_PROVIDER`.
 
 ## Architecture
