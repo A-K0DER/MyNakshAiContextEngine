@@ -152,6 +152,7 @@ Adding a sixth intent means adding one entry to the config object.
 - Multi-turn conversation support: a `conversationId`/`sessionId` on the request, prior turns
   stored (in-memory map, Redis, or DB) and threaded into `buildPrompt`, so follow-up questions
   aren't answered in isolation from what was already asked/answered.
+- Rate limiting on `/personalize`.
 
 **Production concerns intentionally left out (per assignment scope):**
 - Authentication/authorization on the endpoints.
